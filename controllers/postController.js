@@ -33,7 +33,7 @@ export async function newPost(req, res) {
 
 export async function viewPostPage(req, res){
   try {
-    let post = await Post.findById(req.params.id)
+    let post = await Post.findOne({slug: req.params.slug})
                           .populate('user')
                           .lean()
     if(!post) res.redirect('/error/404');
@@ -47,17 +47,17 @@ export async function viewPostPage(req, res){
 
 export async function editPost(req, res){
   try {
-    let post = await Post.findById(req.params.id).lean()
+    let post = await Post.findOne({slug: req.params.slug}).lean()
 
     if(!post) res.render('error/404')
 
     if(post.user._id.toString() != req.user._id.toString()) res.redirect('/post')
     else {
-      post = await Post.findOneAndUpdate({_id: req.params.id}, req.body, {
+      post = await Post.findOneAndUpdate({slug: req.params.slug}, req.body, {
         new: true,
         runValidators: true
       })
-      res.redirect(`/post/view/${post._id}`)
+      res.redirect(`/post/view/${post.slug}`)
     }
 
   } catch (error) {
@@ -68,13 +68,13 @@ export async function editPost(req, res){
 
 export async function deletePost(req, res){
   try {
-    let post = await Post.findById(req.params.id).lean()
+    let post = await Post.findOne({slug: req.params.slug}).lean()
 
     if(!post) res.render('error/404')
 
     if(post.user._id.toString() != req.user._id.toString()) res.redirect('/post')
     else {
-      post = await Post.remove({_id: req.params.id})
+      post = await Post.remove({slug: req.params.slug})
       res.redirect('/dashboard')
     }
   } catch (error) {
@@ -85,7 +85,7 @@ export async function deletePost(req, res){
 
 export async function editPostPage(req, res){
   try {
-    const post = await Post.findOne({ _id: req.params.id }).lean();
+    const post = await Post.findOne({ slug: req.params.slug }).lean();
     
     if(!post) res.render('error/404');
     

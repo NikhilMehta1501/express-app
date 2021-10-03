@@ -9,7 +9,7 @@
                 <h4>{{post.user.displayName}}</h4>
             </a>
             {{#if (strComp post.user._id loggedUser._id) }}
-            <a href="/post/edit/{{post._id}}" class="btn cyan black-text">Edit Post</a>
+            <a href="/post/edit/{{post.slug}}" class="btn cyan black-text">Edit Post</a>
             {{/if}}
         </div>
         <h6 class="left-align">{{formatDate post.createdAt 'dddd, MMMM Do YYYY, h:mm:ss a'}}</h6>

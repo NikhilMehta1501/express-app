@@ -10,11 +10,11 @@ router.get('/new', ensureAuth, (req, res) => res.render('post/newPost') );
 
 // View post
 // GET /post/view/id
-router.get('/view/:id', ensureAuth, viewPostPage );
+router.get('/view/:slug', ensureAuth, viewPostPage );
 
 // Show edit post page
 // GET /post/edit/id
-router.get('/edit/:id', ensureAuth, editPostPage );
+router.get('/edit/:slug', ensureAuth, editPostPage );
 
 // Public Posts page
 // Get /post
@@ -30,10 +30,10 @@ router.post('/', ensureAuth, newPost);
 
 // Edit post form processing
 // POST /post/id
-router.put('/:id', ensureAuth, editPost);
+router.put('/:slug', ensureAuth, editPost);
 
 // Delete post form processing
 // DELETE /post/id
-router.delete('/:id', ensureAuth, deletePost);
+router.delete('/:slug', ensureAuth, deletePost);
 
 export default router

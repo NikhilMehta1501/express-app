@@ -1,6 +1,12 @@
 import Mongoose from "mongoose";
+import slugify from "slugify";
 
 const UserSchema = new Mongoose.Schema({
+  // slug:{
+  //   type: String,
+  //   required: true,
+  //   unique: true
+  // },
   googleId:{
     type: String,
     required: true
@@ -25,5 +31,15 @@ const UserSchema = new Mongoose.Schema({
     default: Date.now
   }
 });
+
+// UserSchema.pre('validate', (next)=>{
+//   if(this.displayName){
+//     this.slug = slugify(this.displayName, {
+//       lower: true,
+//       strict: true
+//     })
+//   }
+//   next()
+// })
 
 export default Mongoose.model('User',UserSchema)
