@@ -1,0 +1,9 @@
+<h1 class="center">Dashboard</h1>
+<h3 class="center">Hello {{user.firstName}}</h3>
+<div class="row">
+    {{#each allPosts  }}
+        {{> _post loggedUser=../loggedUser }}
+    {{else}}
+        <p>You have no Posts</p>
+    {{/each}}
+</div>

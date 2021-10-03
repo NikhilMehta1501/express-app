@@ -1,0 +1,16 @@
+{{#if isUserStories }}
+    <h1 class="center">See What {{ userToFindName }} is Sharing!</h1>
+{{else }}
+    <h1 class="center">See What the World is Sharing!</h1>
+{{/if}}
+<div class="row">
+    {{#each posts}}
+        {{> _post loggedUser=../loggedUser}}
+    {{else }}
+        {{#if isUserStories }}
+            <p>No Stories to Share</p>
+        {{else}}
+            <p>The World Doesn't want to share :(</p>
+        {{/if}}
+    {{/each }}
+</div>

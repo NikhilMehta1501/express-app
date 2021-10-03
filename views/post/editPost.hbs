@@ -1,0 +1,36 @@
+<div class="row">
+    <h2>Edit Post!</h2>
+    <form action="/post/{{post._id}}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" name="title" id="title" value="{{post.title}}">
+                <label for="title">Title</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select name="status" id="status">
+                    <option {{#if (strComp post.status 'public')}}selected{{/if}} value="public">Public</option>
+                    <option {{#if (strComp post.status 'private')}}selected{{/if}} value="private">Private</option>
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <h5>Share your Stories!</h5>
+                <textarea name="body" id="body">{{post.body}}</textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="submit" value="Submit" class="btn">
+                <a class="btn red" href="/dashboard">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
