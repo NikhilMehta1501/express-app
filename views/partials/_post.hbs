@@ -7,7 +7,7 @@
             <div class="post-author center">
                 <div class="chip">
                     <img src={{ user.image }} alt="Contact Person">
-                    <a href="/post/user/{{user._id}}" class="black-text">{{ user.displayName }}</a>
+                    <a href="/post/user/{{user.slug}}" class="black-text">{{ user.displayName }}</a>
                 </div>
             </div>
             <h6 class="post-body black-text black-text center">{{stripTags body}}</h6>
@@ -22,7 +22,7 @@
         </div>
         <div class="card-action post-actions center">
             <a class="black-text btn grey lighten-3" href="/post/view/{{slug}}">View Post</a>
-            {{#if (strComp user._id loggedUser._id)}}
+            {{#if (strComp user.slug loggedUser.slug)}}
             <a class="black-text btn grey lighten-3" href="/post/edit/{{slug}}">Edit Post</a>
             <form action="/post/{{slug}}" method="POST">
                 <input type="hidden" name="_method" value="DELETE">

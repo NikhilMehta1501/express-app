@@ -9,11 +9,11 @@ import { editPostPage, viewPostPage, newPost, editPost, deletePost, getPublicPos
 router.get('/new', ensureAuth, (req, res) => res.render('post/newPost') );
 
 // View post
-// GET /post/view/id
+// GET /post/view/slug
 router.get('/view/:slug', ensureAuth, viewPostPage );
 
 // Show edit post page
-// GET /post/edit/id
+// GET /post/edit/slug
 router.get('/edit/:slug', ensureAuth, editPostPage );
 
 // Public Posts page
@@ -21,19 +21,19 @@ router.get('/edit/:slug', ensureAuth, editPostPage );
 router.get('/', ensureAuth, getPublicPosts);
 
 // Show user posts page
-// GET /post/user/id
-router.get('/user/:id', ensureAuth, userPostPage );
+// GET /post/user/slug
+router.get('/user/:slug', ensureAuth, userPostPage );
 
 // New post form processing
 // POST /post
 router.post('/', ensureAuth, newPost);
 
 // Edit post form processing
-// POST /post/id
+// POST /post/slug
 router.put('/:slug', ensureAuth, editPost);
 
 // Delete post form processing
-// DELETE /post/id
+// DELETE /post/slug
 router.delete('/:slug', ensureAuth, deletePost);
 
 export default router

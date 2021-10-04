@@ -2,13 +2,13 @@
     <h2 class="center">{{post.title}}</h2>
     <div class="view-post-author-info container">
         <div class="view-post-author-name-img">
-            <a class="author-img-link" href="/post/user/{{post.user._id}}">
+            <a class="author-img-link" href="/post/user/{{post.user.slug}}">
                 <img class="circle" src="{{post.user.image}}" alt="">
             </a>
-            <a class="black-text author-name-link" href="/post/user/{{post.user._id}}">
+            <a class="black-text author-name-link" href="/post/user/{{post.user.slug}}">
                 <h4>{{post.user.displayName}}</h4>
             </a>
-            {{#if (strComp post.user._id loggedUser._id) }}
+            {{#if (strComp post.user.slug loggedUser.slug) }}
             <a href="/post/edit/{{post.slug}}" class="btn cyan black-text">Edit Post</a>
             {{/if}}
         </div>
@@ -19,5 +19,5 @@
     {{{post.body}}}
 </div>
 <div class="view-post-footer container">
-    <a class="btn white black-text" href="/post/user/{{post.user._id}}">More from {{post.user.firstName}}</a>
+    <a class="btn white black-text" href="/post/user/{{post.user.slug}}">More from {{post.user.firstName}}</a>
 </div>

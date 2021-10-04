@@ -103,7 +103,6 @@ export async function getPublicPosts(req, res){
                                   .populate('user')
                                   .sort({createdAt:'desc'})
                                   .lean()
-    // console.log(publicPosts[0].user._id.toString());
     let isUserStories = false; 
     let loggedUser = req.user.toJSON()
     res.render('post/publicPosts',{ posts, isUserStories, loggedUser})
@@ -115,18 +114,22 @@ export async function getPublicPosts(req, res){
 
 export async function userPostPage(req, res){
   try {
+    let userToFind = await User.findOne({slug: req.params.slug}).lean()
+    let loggedUser = req.user.toJSON()
+    
     let posts = await Post.find({
-                        user : req.params.id,
+                        user : userToFind._id,
                         status : 'public'
                       })
                       .populate('user')
                       .lean()
-    let userToFindName = await User.findById(req.params.id).select('firstName').lean()
-    userToFindName = userToFindName.firstName;
+    
     let isUserStories = true;
-    let loggedUser = req.user.toJSON()
-
-    res.render('post/publicPosts', { posts, isUserStories, loggedUser, userToFindName})
+    res.render('post/publicPosts', { posts,
+                                    isUserStories,
+                                    loggedUser,
+                                    userToFindName: userToFind.firstName
+                                  })
 
   } catch (error) {
     console.error(error);
