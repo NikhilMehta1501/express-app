@@ -114,11 +114,10 @@ export async function getPublicPosts(req, res){
 
 export async function userPostPage(req, res){
   try {
-    let userToFind = await User.findOne({slug: req.params.slug}).lean()
     let loggedUser = req.user.toJSON()
-    
+    let userToFind = await User.findOne({slug: req.params._id}).lean()
     let posts = await Post.find({
-                        user : userToFind._id,
+                        user : req.params._id,
                         status : 'public'
                       })
                       .populate('user')

@@ -3,5 +3,5 @@ export function ensureAuth(req, res, next) {
 }
 
 export function ensureGuest(req, res, next) {
-  (req.isAuthenticated()) ? res.redirect('/dashboard') : next()
+  (req.isAuthenticated()) ? res.redirect('/post') : next()
 }

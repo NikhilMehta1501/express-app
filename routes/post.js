@@ -21,8 +21,8 @@ router.get('/edit/:slug', ensureAuth, editPostPage );
 router.get('/', ensureAuth, getPublicPosts);
 
 // Show user posts page
-// GET /post/user/slug
-router.get('/user/:slug', ensureAuth, userPostPage );
+// GET /post/user/id
+router.get('/user/:id', ensureAuth, userPostPage );
 
 // New post form processing
 // POST /post
