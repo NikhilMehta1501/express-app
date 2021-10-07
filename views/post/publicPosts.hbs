@@ -14,3 +14,9 @@
         {{/if}}
     {{/each }}
 </div>
+
+{{#if posts }}
+    {{#unless (strComp totalPages 1) }}
+        {{> _paginator size=size page=page isLastPage=isLastPage url=url totalPages=totalPages}}
+    {{/unless }}
+{{/if }}

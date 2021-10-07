@@ -1,5 +1,6 @@
 import Post from "../models/Post.js"
 import User from "../models/User.js"
+import moment from "moment"
 
 export async function getAllPosts(req, res) { 
   try {
@@ -7,7 +8,6 @@ export async function getAllPosts(req, res) {
                               .populate('user')
                               .sort({createdAt:'desc'})
                               .lean()
-    // console.log(allPosts);
     let loggedUser = req.user.toJSON()
     res.render('dashboard', {
       user: req.user.toJSON(),
@@ -99,13 +99,31 @@ export async function editPostPage(req, res){
 
 export async function getPublicPosts(req, res){
   try {
+    let { page, size } = req.query
+
+    page = (!page) ? 1 : parseInt(page)
+    size = (!size) ? 10 : parseInt(size)
+
+    const skip = (page-1)*size
+
+    const totalPosts = await Post.countDocuments({status: 'public'})
+    let totalPages = Math.ceil(totalPosts/size)
+    // totalPages = (totalPages<1) ? 1 : totalPages
+
     const posts = await Post.find({status: 'public'})
                                   .populate('user')
                                   .sort({createdAt:'desc'})
+                                  .skip(skip)
+                                  .limit(size)
                                   .lean()
+
+    const lastPostCreatedAt = posts[posts.length-1].createdAt
+    const isLastPage = !(await Post.exists({status: 'public', createdAt: {$lt: lastPostCreatedAt} }))
+    const url=`/post`
+
     let isUserStories = false; 
     let loggedUser = req.user.toJSON()
-    res.render('post/publicPosts',{ posts, isUserStories, loggedUser})
+    res.render('post/publicPosts',{ posts, isUserStories, loggedUser, page, size, totalPages, isLastPage, url})
   } catch (error) {
     console.error(error);
     res.render('error/500')

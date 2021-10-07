@@ -18,6 +18,7 @@ router.get('/edit/:slug', ensureAuth, editPostPage );
 
 // Public Posts page
 // Get /post
+// Get /post?page=1&size=10
 router.get('/', ensureAuth, getPublicPosts);
 
 // Show user posts page
