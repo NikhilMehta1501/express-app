@@ -123,7 +123,15 @@ export async function getPublicPosts(req, res){
 
     let isUserStories = false; 
     let loggedUser = req.user.toJSON()
-    res.render('post/publicPosts',{ posts, isUserStories, loggedUser, page, size, totalPages, isLastPage, url})
+    res.render('post/publicPosts',{ posts,
+                                    isUserStories,
+                                    loggedUser,
+                                    page,
+                                    size,
+                                    totalPages,
+                                    isLastPage,
+                                    url
+                                  })
   } catch (error) {
     console.error(error);
     res.render('error/500')
@@ -133,19 +141,45 @@ export async function getPublicPosts(req, res){
 export async function userPostPage(req, res){
   try {
     let loggedUser = req.user.toJSON()
-    let userToFind = await User.findOne({slug: req.params._id}).lean()
+
+    let { page, size } = req.query
+
+    page = (!page) ? 1 : parseInt(page)
+    size = (!size) ? 10 : parseInt(size)
+
+    const skip = (page-1)*size
+
+    const totalPosts = await Post.countDocuments({ user : req.params.id, status: 'public'})
+    let totalPages = Math.ceil(totalPosts/size)
+    console.log(totalPosts);
+    console.log(Math.ceil(totalPosts/size));
+
+    let userToFind = await User.findOne({id: req.params.id}).lean()
     let posts = await Post.find({
-                        user : req.params._id,
+                        user : req.params.id,
                         status : 'public'
                       })
                       .populate('user')
+                      .sort({createdAt:'desc'})
+                      .skip(skip)
+                      .limit(size)
                       .lean()
+                      .lean()
+
+    const lastPostCreatedAt = posts[posts.length-1].createdAt
+    const isLastPage = !(await Post.exists({user: req.params.id, status: 'public', createdAt: {$lt: lastPostCreatedAt} }))
+    const url=`/post/user/${req.params.id}`
     
     let isUserStories = true;
-    res.render('post/publicPosts', { posts,
+    res.render('post/publicPosts',{ posts,
                                     isUserStories,
+                                    userToFindName: userToFind.firstName,
                                     loggedUser,
-                                    userToFindName: userToFind.firstName
+                                    page,
+                                    size,
+                                    totalPages,
+                                    isLastPage,
+                                    url
                                   })
 
   } catch (error) {
