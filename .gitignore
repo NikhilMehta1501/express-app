@@ -1,2 +1,11 @@
 /config/config.env
 node_modules/
+
+# production
+/build
+/dist
+/dist/*
+
+# local env files
+.env*.local
+.env
