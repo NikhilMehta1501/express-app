@@ -3,7 +3,7 @@ import Mongoose from "mongoose";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import methodOverride from "method-override";
-import { config } from "dotenv";
+// import { config } from "dotenv";
 import "dotenv/config";
 import morgan from "morgan";
 import exphbs from "express-handlebars";
